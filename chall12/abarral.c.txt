@@ -1,0 +1,54 @@
+char *ft_reverse_parenthesis(const char *str)
+{
+    char *aux;
+    char b;
+    int  i;
+    int  j;
+    int  k;
+
+    b = '0';
+    i = 0;
+    j = 0;
+    k = 0;
+
+    aux = (char *) malloc(sizeof(*aux) * (strlen(str)));
+    if (aux == NULL)
+        return (NULL);
+    strcpy(aux, str);
+    while (aux[i] != '\0')
+    {
+        if(aux[i] == '(')
+        {
+            k++;
+            j = i + 1;
+            while (k != 0)
+            {
+                if (aux[j] == '(')
+                    k++;
+                if (aux[j] == ')')
+                    k--;
+                if (aux[j] == '\0' && k != 0)
+                    return ("NULL");
+                j++;
+            }
+            k = 0;
+            j = j - i - 1;
+            while (k + i < i + j - k)
+            {
+                b = aux[k + i];
+                aux[k + i] = aux[i + j - k];
+                aux[i + j - k] = b;
+                if (aux[k + i] == ')')
+                    aux[k + i] = '(';
+                if (aux[i + j - k] == '(')
+                    aux[i + j - k] = ')';
+                k++;
+            }
+            j = 0;
+            k = 0;
+        }
+        i++;
+    }
+    return (aux);
+    free(aux);
+}
